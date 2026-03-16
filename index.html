@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JUSE. Menu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fafaf8;
+        }
+        .juse-logo {
+            letter-spacing: -0.05em;
+        }
+        .hero-title {
+            line-height: 0.75;
+        }
+        [vx-cloak] { display: none !important; }
+        
+        /* Smooth transitions for images */
+        .img-container img {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .img-container img.loaded {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="text-zinc-900 selection:bg-zinc-900 selection:text-white">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 w-full z-[80] transition-all duration-500 px-6 md:px-12 py-6 flex justify-between items-center bg-transparent">
+        <div class="text-4xl font-black tracking-tighter uppercase cursor-pointer leading-none juse-logo">
+            JUSE.
+        </div>
+        <div class="hidden md:flex space-x-12 text-[10px] font-black uppercase tracking-[0.2em]">
+            <a href="#menu" class="hover:text-zinc-400 transition-colors">The Menu</a>
+            <a href="#" class="hover:text-zinc-400 transition-colors">Our Story</a>
+            <a href="#" class="hover:text-zinc-400 transition-colors">Contact</a>
+        </div>
+        <button class="relative p-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-bag"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            <span class="absolute top-1 right-1 bg-zinc-900 text-white text-[8px] w-3 h-3 rounded-full flex items-center justify-center font-bold">0</span>
+        </button>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="pt-48 pb-20 px-6 md:px-12 max-w-7xl mx-auto flex flex-col items-center text-center">
+        <h1 class="text-7xl md:text-[12rem] font-black tracking-tighter hero-title mb-12 uppercase">
+            JUSE <br> MENU.
+        </h1>
+        <p class="max-w-xl text-zinc-500 text-lg md:text-xl leading-relaxed mb-12">
+            Pure Extract. Essential Vitality. Discover our range of cold-pressed blends and nutrient-dense shakes.
+        </p>
+        <div class="animate-bounce mt-8">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-300"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+    </header>
+
+    <!-- Category Selection -->
+    <div id="menu-sticky" class="sticky top-0 md:top-[72px] bg-[#fafaf8]/90 backdrop-blur-sm z-40 px-6 md:px-12 py-8 border-y border-zinc-200">
+        <div id="category-filters" class="max-w-7xl mx-auto flex flex-wrap justify-center gap-6 md:gap-12">
+            <!-- Categories will be injected here -->
+        </div>
+    </div>
+
+    <!-- Menu Grid -->
+    <main class="px-6 md:px-12 max-w-7xl mx-auto py-24 pb-40">
+        <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24">
+            <!-- Menu items will be injected here -->
+        </div>
+    </main>
+
+    <!-- Product Detail Lightbox -->
+    <div id="lightbox" class="fixed inset-0 z-[100] bg-white hidden flex-col md:flex-row items-center justify-center p-6 md:p-12 opacity-0 transition-opacity duration-300">
+        <button id="close-lightbox" class="absolute top-8 right-8 text-zinc-900 hover:scale-110 transition-transform duration-300 z-[110]">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+        
+        <div class="w-full h-1/2 md:h-full md:w-1/2 flex items-center justify-center img-container">
+            <img id="lightbox-img" src="" alt="" class="max-h-[90%] max-w-[90%] object-contain shadow-2xl rounded-sm" onload="this.classList.add('loaded')">
+        </div>
+        
+        <div class="w-full md:w-1/2 md:pr-12 md:pl-12 flex flex-col justify-center max-w-lg">
+            <span id="lightbox-cat" class="text-[10px] uppercase tracking-[0.4em] text-zinc-400 font-black mb-6 border-l-2 border-zinc-900 pl-4"></span>
+            <h2 id="lightbox-title" class="text-5xl md:text-7xl font-bold tracking-tighter mb-8 leading-none uppercase"></h2>
+            <p id="lightbox-desc" class="text-zinc-500 text-xl leading-relaxed mb-12"></p>
+            
+            <button class="bg-zinc-900 text-white px-12 py-6 text-[10px] uppercase tracking-widest font-black hover:bg-zinc-800 transition-all w-fit rounded-full">
+                Order this blend
+            </button>
+        </div>
+    </div>
+
+    <!-- Minimal Footer -->
+    <footer class="bg-white py-24 px-6 md:px-12 border-t border-zinc-100">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
+            <div class="text-4xl font-black tracking-tighter uppercase juse-logo">
+                JUSE.
+            </div>
+            <div class="flex gap-12 text-[10px] font-black uppercase tracking-widest text-zinc-400 font-bold">
+                <span>Berlin</span>
+                <span>London</span>
+                <span>NYC</span>
+            </div>
+            <div class="text-[10px] font-black uppercase tracking-widest text-zinc-300">
+                &copy; 2024 JUSE. BATCH 001
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Note: Filenames must match exactly. 
+        // Example: "Banana dry fruit  copy.jpg" has two spaces before "copy".
+        const JUSE_DATA = {
+            categories: ["All", "Shakes", "Cold Pressed", "Tropical"],
+            menu: [
+                { id: 1, title: "Banana Dryfruit Shake", category: "Shakes", image: "Banana dry fruit  copy.jpg", description: "A rich, nutty blend of Bananas, Dry fruits, Honey & Milk. High viscosity and natural sweetness." },
+                { id: 2, title: "Apple Banana Dryfruit", category: "Shakes", image: "Apple Banana Dry fruit Shake v2.jpg", description: "Royal Gala Apples meet Bananas and Dates. A complex, sweet, and nutty palate profile." },
+                { id: 3, title: "Watermelon", category: "Cold Pressed", image: "Watermelon 325 copy.jpg", description: "Pure hydration. Low viscosity, high refreshment. 100% cold-pressed watermelon." },
+                { id: 4, title: "Tropical Twirl", category: "Tropical", image: "Tropical Twirl 325 copy.jpg", description: "A vibrant dance of Royal Gala Apples & Valencia Oranges. Tangy and sweet." },
+                { id: 5, title: "Tropical Core", category: "Tropical", image: "Tropical Core 325 copy.jpg", description: "The essence of the tropics: Apple, Pineapple & Cucumber. Grassy and refreshing notes." },
+                { id: 6, title: "Summer Breeze", category: "Cold Pressed", image: "Summer Breeze 325 copy.jpg", description: "Cooling Royal Gala Apples, Cucumber & Mint. Earthy undertones with a minty finish." },
+                { id: 7, title: "Sassy Sunshine", category: "Tropical", image: "Sassy Sunshine 325 copy.jpg", description: "Valencia Oranges & Carrots. A high-beta-carotene blend with a tangy kick." },
+                { id: 8, title: "Red Thirst", category: "Cold Pressed", image: "Red Thirst 325 copy.jpg", description: "Pomegranates, Royal Gala Apples & Carrots. Deep earthy flavors with rich antioxidants." }
+            ]
+        };
+
+        let activeCategory = "All";
+
+        // Scroll listener for Navbar
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-white/90', 'backdrop-blur-md', 'py-4', 'border-b', 'border-zinc-100', 'shadow-sm');
+                nav.classList.remove('bg-transparent');
+            } else {
+                nav.classList.remove('bg-white/90', 'backdrop-blur-md', 'py-4', 'border-b', 'border-zinc-100', 'shadow-sm');
+                nav.classList.add('bg-transparent');
+            }
+        });
+
+        // Initialize Categories
+        const renderCategories = () => {
+            const container = document.getElementById('category-filters');
+            container.innerHTML = JUSE_DATA.categories.map(cat => `
+                <button onclick="setCategory('${cat}')" class="category-btn text-[10px] uppercase tracking-[0.3em] font-black transition-all ${activeCategory === cat ? 'text-zinc-900 scale-110' : 'text-zinc-300 hover:text-zinc-500'}">
+                    ${cat}
+                </button>
+            `).join('');
+        };
+
+        // Initialize Menu
+        const renderMenu = () => {
+            const container = document.getElementById('menu-grid');
+            const filtered = activeCategory === "All" ? JUSE_DATA.menu : JUSE_DATA.menu.filter(item => item.category === activeCategory);
+            
+            container.innerHTML = filtered.map((item, index) => {
+                // Encode the URI to handle spaces safely in the HTML
+                const encodedImg = encodeURI(item.image);
+                return `
+                <div class="group cursor-pointer relative ${index % 2 === 1 ? 'lg:translate-y-20' : ''}" onclick="openLightbox(${item.id})">
+                    <div class="aspect-square overflow-hidden bg-white relative rounded-sm shadow-sm transition-all duration-700 hover:shadow-2xl img-container">
+                        <img src="${encodedImg}" alt="${item.title}" 
+                             class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105" 
+                             onload="this.classList.add('loaded')"
+                             onerror="handleImageError(this)">
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-500"></div>
+                    </div>
+                    <div class="mt-8 flex justify-between items-end border-b border-zinc-100 pb-6">
+                        <div>
+                            <span class="text-[10px] text-zinc-400 uppercase tracking-widest font-black mb-2 block">${item.category}</span>
+                            <h3 class="text-2xl font-bold tracking-tight">${item.title}</h3>
+                        </div>
+                        <div class="flex items-center gap-4 text-xs font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-500">
+                            Profile Details 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                        </div>
+                    </div>
+                </div>
+            `}).join('');
+        };
+
+        // Handle missing images with a clean placeholder
+        window.handleImageError = (img) => {
+            img.onerror = null; // Prevent infinite loop
+            img.src = 'https://via.placeholder.com/800x800/fafaf8/18181b?text=JUSE+IMAGE+MISSING';
+            img.classList.add('loaded');
+            console.warn("Image not found: " + img.getAttribute('src'));
+        };
+
+        window.setCategory = (cat) => {
+            activeCategory = cat;
+            renderCategories();
+            renderMenu();
+        };
+
+        // Lightbox Logic
+        window.openLightbox = (id) => {
+            const item = JUSE_DATA.menu.find(i => i.id === id);
+            if (!item) return;
+
+            const lbImg = document.getElementById('lightbox-img');
+            lbImg.classList.remove('loaded');
+            lbImg.src = encodeURI(item.image);
+            
+            document.getElementById('lightbox-cat').innerText = item.category;
+            document.getElementById('lightbox-title').innerText = item.title;
+            document.getElementById('lightbox-desc').innerText = item.description;
+
+            const lb = document.getElementById('lightbox');
+            lb.classList.remove('hidden');
+            lb.classList.add('flex');
+            setTimeout(() => lb.classList.add('opacity-100'), 10);
+            document.body.style.overflow = 'hidden';
+        };
+
+        document.getElementById('close-lightbox').addEventListener('click', () => {
+            const lb = document.getElementById('lightbox');
+            lb.classList.remove('opacity-100');
+            setTimeout(() => {
+                lb.classList.remove('flex');
+                lb.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }, 300);
+        });
+
+        // Initial Render
+        renderCategories();
+        renderMenu();
+    </script>
+</body>
+</html>
