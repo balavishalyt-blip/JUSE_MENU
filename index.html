@@ -113,8 +113,12 @@
     </footer>
 
     <script>
-        // Note: Filenames must match exactly. 
-        // Example: "Banana dry fruit  copy.jpg" has two spaces before "copy".
+        /**
+         * IMPORTANT FOR GITHUB PAGES:
+         * 1. Filenames are CASE-SENSITIVE.
+         * 2. Double spaces in filenames often get collapsed to single spaces on upload.
+         * 3. We'll implement a "Retry" logic if the exact name fails.
+         */
         const JUSE_DATA = {
             categories: ["All", "Shakes", "Cold Pressed", "Tropical"],
             menu: [
@@ -130,6 +134,11 @@
         };
 
         let activeCategory = "All";
+
+        // Helper to encode filenames properly for URLs
+        const encodeFilename = (filename) => {
+            return encodeURIComponent(filename).replace(/%20/g, " ");
+        };
 
         // Scroll listener for Navbar
         window.addEventListener('scroll', () => {
@@ -158,16 +167,13 @@
             const container = document.getElementById('menu-grid');
             const filtered = activeCategory === "All" ? JUSE_DATA.menu : JUSE_DATA.menu.filter(item => item.category === activeCategory);
             
-            container.innerHTML = filtered.map((item, index) => {
-                // Encode the URI to handle spaces safely in the HTML
-                const encodedImg = encodeURI(item.image);
-                return `
+            container.innerHTML = filtered.map((item, index) => `
                 <div class="group cursor-pointer relative ${index % 2 === 1 ? 'lg:translate-y-20' : ''}" onclick="openLightbox(${item.id})">
                     <div class="aspect-square overflow-hidden bg-white relative rounded-sm shadow-sm transition-all duration-700 hover:shadow-2xl img-container">
-                        <img src="${encodedImg}" alt="${item.title}" 
+                        <img src="${item.image}" alt="${item.title}" 
                              class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-105" 
                              onload="this.classList.add('loaded')"
-                             onerror="handleImageError(this)">
+                             onerror="handleImageError(this, '${item.image}')">
                         <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-500"></div>
                     </div>
                     <div class="mt-8 flex justify-between items-end border-b border-zinc-100 pb-6">
@@ -181,15 +187,32 @@
                         </div>
                     </div>
                 </div>
-            `}).join('');
+            `).join('');
         };
 
-        // Handle missing images with a clean placeholder
-        window.handleImageError = (img) => {
-            img.onerror = null; // Prevent infinite loop
-            img.src = 'https://via.placeholder.com/800x800/fafaf8/18181b?text=JUSE+IMAGE+MISSING';
+        /**
+         * Smart Image Error Handling:
+         * 1. If it fails with double spaces, try single spaces.
+         * 2. If it still fails, show placeholder.
+         */
+        window.handleImageError = (img, originalName) => {
+            const currentSrc = img.getAttribute('src');
+            
+            // Step 1: Try collapsing double spaces (Common GitHub Upload behavior)
+            if (originalName.includes('  ') && !currentSrc.includes('collapsed-retry')) {
+                const singleSpaceName = originalName.replace(/\s\s+/g, ' ');
+                console.log(`Retrying collapsed space path: ${singleSpaceName}`);
+                img.src = singleSpaceName + "?collapsed-retry=1";
+                return;
+            }
+
+            // Step 2: Final Failure
+            img.onerror = null; 
+            img.src = 'https://via.placeholder.com/800x800/fafaf8/18181b?text=IMAGE+NOT+FOUND';
             img.classList.add('loaded');
-            console.warn("Image not found: " + img.getAttribute('src'));
+            
+            console.error(`404: Could not find ${originalName} on GitHub.`);
+            console.log(`Ensure the file "${originalName}" is in the root of your GitHub repository.`);
         };
 
         window.setCategory = (cat) => {
@@ -205,7 +228,7 @@
 
             const lbImg = document.getElementById('lightbox-img');
             lbImg.classList.remove('loaded');
-            lbImg.src = encodeURI(item.image);
+            lbImg.src = item.image;
             
             document.getElementById('lightbox-cat').innerText = item.category;
             document.getElementById('lightbox-title').innerText = item.title;
